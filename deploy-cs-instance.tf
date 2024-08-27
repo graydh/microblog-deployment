@@ -23,6 +23,15 @@ resource "aws_lightsail_container_service" "microblog-flask-tutorial" {
   scale       = 1
   is_disabled = false
 
+  public_domain_names {
+    certificate {
+      certificate_name = "Certificate-1"
+      domain_names = [
+        "www.micro-blog.org",
+        "micro-blog.org"
+      ]
+    }
+  }
   tags = {
   }
 }
@@ -70,7 +79,7 @@ variable "REDIS_URL" {
 resource "aws_lightsail_container_service_deployment_version" "microblog-flask-tutorial-version" {
   container {
     container_name = "microblog"
-    image          = ":microblog-flask-tutorial.microblog.13"
+    image          = ":microblog-flask-tutorial.microblog.15"
 
     environment = {
       MAIL_PORT = var.MAIL_PORT
