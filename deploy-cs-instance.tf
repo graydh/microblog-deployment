@@ -79,7 +79,7 @@ variable "REDIS_URL" {
 resource "aws_lightsail_container_service_deployment_version" "microblog-flask-tutorial-version" {
   container {
     container_name = "microblog"
-    image          = ":microblog-flask-tutorial.microblog.15"
+    image          = ":microblog-flask-tutorial.microblog.16"
 
     environment = {
       MAIL_PORT = var.MAIL_PORT
