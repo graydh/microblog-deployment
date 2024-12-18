@@ -51,11 +51,6 @@ variable "MAIL_USERNAME" {
   description = "Username for mail server"
 }
 
-variable "ELASTICSEARCH_URL" {
-  type        = string
-  description = "Url of Elasticsearch"
-}
-
 variable "SECRET_KEY" {
   type        = string
   description = "backend secret key"
@@ -79,14 +74,13 @@ variable "REDIS_URL" {
 resource "aws_lightsail_container_service_deployment_version" "microblog-flask-tutorial-version" {
   container {
     container_name = "microblog"
-    image          = ":microblog-flask-tutorial.microblog.16"
+    image          = ":microblog-flask-tutorial.microblog.17"
 
     environment = {
       MAIL_PORT = var.MAIL_PORT
       DATABASE_URL = var.DATABASE_URL
       MAIL_USERNAME = var.MAIL_USERNAME
       MAIL_USE_TLS = true
-      ELASTICSEARCH_URL = var.ELASTICSEARCH_URL
       SECRET_KEY = var.SECRET_KEY
       MAIL_SERVER = var.MAIL_SERVER
       MAIL_PASSWORD = var.MAIL_PASSWORD
@@ -99,14 +93,13 @@ resource "aws_lightsail_container_service_deployment_version" "microblog-flask-t
   }
   container {
     container_name = "microblog-worker"
-    image          = ":microblog-flask-tutorial.microblog-worker.9"
+    image          = ":microblog-flask-tutorial.microblog-worker.19"
 
     environment = {
       MAIL_PORT = var.MAIL_PORT
       DATABASE_URL = var.DATABASE_URL
       MAIL_USERNAME = var.MAIL_USERNAME
       MAIL_USE_TLS = true
-      ELASTICSEARCH_URL = var.ELASTICSEARCH_URL
       SECRET_KEY = var.SECRET_KEY
       MAIL_SERVER = var.MAIL_SERVER
       MAIL_PASSWORD = var.MAIL_PASSWORD
@@ -115,22 +108,8 @@ resource "aws_lightsail_container_service_deployment_version" "microblog-flask-t
   }
 
   container {
-    container_name = "elasticsearch"
-    image          = "docker.elastic.co/elasticsearch/elasticsearch:7.17.19"
-
-    environment = {
-      "discovery.type" = "single-node"
-      "xpack.security.enabled" = false
-    }
-
-    ports = {
-      9200 = "TCP"
-    }
-  }
-
-  container {
     container_name = "redis"
-    image          = "redis:latest"
+    image          = "redis:7.4.1"
 
     ports = {
       6379 = "TCP"
